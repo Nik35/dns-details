@@ -267,8 +267,10 @@ No external files of any kind. Local preview should work by opening `index.html`
 - Action cards: inline line icons; **Patch** highlighted as "The DR failover button".
 - Sections fade in on scroll; reduced motion → fades only.
 
+- **Sections trimmed to the flows only** (owner request): §6.1 title, §6.6 action cards and §6.7 closing / Questions were **removed**. The page is now: problem (DNS TTL / propagation) → big idea → architecture map → How it works → Request journey. Removed content is archived in a local, git-ignored `removed-sections.local.md` and in git history.
+
 ### 14.3 Files (final)
-`index.html`, `css/styles.css`, `js/config.js`, `js/beats.js`, `js/util.js`, `js/sections.js`, `js/diagram.js`, `js/story.js`, `.gitlab-ci.yml`, `README.md`, `CLAUDE.md`. Classic `defer` scripts (not ES modules) so `file://` works.
+`index.html`, `css/styles.css`, `js/config.js`, `js/beats.js`, `js/util.js`, `js/sections.js`, `js/diagram.js`, `js/story.js`, `.gitlab-ci.yml`, `.github/workflows/pages.yml`, `.gitignore`, `README.md`, `CLAUDE.md`. Classic `defer` scripts (not ES modules) so `file://` works. **No build step**: "build" = copy `index.html css js` into a folder (see `CLAUDE.md` → *Build, preview, deploy*). Hosted on GitHub Pages: https://nik35.github.io/dns-details/ (repo https://github.com/Nik35/dns-details).
 
 ### 14.4 Phase status
 Phases 1–6 done (plus the additions above). **Phase 7 (polish & checks) remaining** — see the TODO list in `CLAUDE.md`.

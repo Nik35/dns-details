@@ -11,7 +11,6 @@ window.DR = window.DR || {};
 
 DR.CONFIG = {
   /* ---- Placeholder names (documentation-safe values only) ---- */
-  presenter: 'Presenter Name · Team Name',
   gateway: 'ABCD Gateway',
   fqdn: 'app.example.com',
   wideIp: 'app.gslb.example.com',
@@ -121,11 +120,6 @@ DR.CONFIG = {
 
   /* ---- Page text (sections outside the pinned window) ---- */
   text: {
-    intro: {
-      kicker: 'Disaster Recovery',
-      title: 'DR Failover Automation',
-      hint: 'Scroll, or press → to begin',
-    },
     problem: {
       kicker: 'Today',
       heading: 'Failover waits on DNS',
@@ -167,44 +161,6 @@ DR.CONFIG = {
     howItWorks: {
       kicker: 'How it works',
       techTag: 'TECH',
-    },
-    actions: {
-      kicker: 'Beyond create',
-      heading: 'The other actions',
-      footer: 'Shown live in the demo.',
-      cards: [
-        {
-          title: 'Migrate',
-          icon: 'migrate',
-          badge: '',
-          body: 'For apps that already have a DNS name: once the traffic manager is set up, a separate, deliberate step points the existing name at it.',
-        },
-        {
-          title: 'Patch',
-          icon: 'patch',
-          highlight: true,
-          badge: 'The DR failover button',
-          body: 'Switch which server is active — primary or secondary. It takes effect in seconds, and the DNS name never changes.',
-        },
-        {
-          title: 'Delete',
-          icon: 'delete',
-          badge: '',
-          body: 'Cleanly tears the whole configuration down.',
-        },
-      ],
-    },
-    closing: {
-      kicker: 'Recap',
-      heading: 'What we get',
-      items: [
-        { value: 'Seconds',        label: 'to fail over — not 10–20 minutes' },
-        { value: 'Once',           label: 'DNS is changed once, never again for failover' },
-        { value: 'Full audit trail', label: 'what was asked for vs. what was actually done' },
-      ],
-    },
-    questions: {
-      heading: 'Questions?',
     },
   },
 };

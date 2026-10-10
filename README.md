@@ -32,10 +32,12 @@ Mouse wheel / trackpad scrolling also steps through the animation.
 
 ## Sections
 
-1. Title · 2. The problem (DNS propagation animation) · 3. The big idea · 4. Architecture map ·
-5. **How it works** — New application (14 steps) / Existing name (18 steps, incl. migrate) ·
-5b. **Request journey** — Today (DNS only) vs With GTM, incl. disaster and failover ·
-6. The other actions (Migrate / Patch / Delete) · 7. Recap · Questions.
+1. The problem — DNS change + TTL / propagation wait (animated) · 2. The big idea ·
+3. Architecture map · 4. **How it works** — New application (14 steps) / Existing name
+(18 steps, incl. migrate) · 5. **Request journey** — Today (DNS only) vs With GTM, incl.
+disaster and failover.
+
+(The title slide, action cards, recap and Questions slide were removed — see `CLAUDE.md`.)
 
 ## Editing content (no animation code needed)
 
@@ -52,10 +54,22 @@ Mouse wheel / trackpad scrolling also steps through the animation.
 Text may use tokens such as `{fqdn}`, `{wideIp}`, `{gateway}`, `{primary.ip}` (filled from
 `config.js`), and \`backticks\` for monospace identifiers.
 
+## Build
+
+No build step — the site is plain files. To produce the deployable folder (what CI does):
+
+```bash
+mkdir -p _site && cp -r index.html css js _site/
+```
+
+Before publishing: `node --check` each file in `js/` (syntax only) and make sure there are no
+`http(s)://` references in `index.html`, `css/`, `js/`. Full checklist in `CLAUDE.md`.
+
 ## Deploy
 
 - **GitHub Pages** (live preview): `.github/workflows/pages.yml` publishes `index.html`, `css/`, `js/`
-  on every push to `main`. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+  on every push to `main`. One-time setup: repo **Settings → Pages → Source: GitHub Actions**
+  (not "Deploy from a branch" — that runs Jekyll and fails looking for `/docs`).
   URL: <https://nik35.github.io/dns-details/>
 - **GitLab Pages**: `.gitlab-ci.yml` copies the same files into `public/`. Change the `image:` to
   one your runners are allowed to pull.

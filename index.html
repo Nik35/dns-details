@@ -17,18 +17,7 @@
   <noscript><p class="noscript">This presentation needs JavaScript enabled.</p></noscript>
 
   <main>
-    <!-- 1. Title -->
-    <section id="intro" class="slide slide--intro">
-      <div class="slide__inner">
-        <p class="kicker" data-text="text.intro.kicker"></p>
-        <h1 class="title" data-text="text.intro.title"></h1>
-        <p class="lede" data-text="bigIdea"></p>
-        <p class="presenter" data-text="presenter"></p>
-        <p class="hint" data-text="text.intro.hint"></p>
-      </div>
-    </section>
-
-    <!-- 2. The problem -->
+    <!-- 1. The problem: DNS change + propagation wait (TTL) -->
     <section id="problem" class="slide">
       <div class="slide__inner">
         <p class="kicker" data-text="text.problem.kicker"></p>
@@ -61,7 +50,7 @@
       </div>
     </section>
 
-    <!-- 3. The big idea -->
+    <!-- 2. The big idea -->
     <section id="big-idea" class="slide">
       <div class="slide__inner">
         <p class="kicker" data-text="text.bigIdea.kicker"></p>
@@ -95,7 +84,7 @@
       </div>
     </section>
 
-    <!-- 4. Architecture overview (static map) -->
+    <!-- 3. Architecture overview (static map) -->
     <section id="overview" class="slide">
       <div class="slide__inner slide__inner--wide">
         <p class="kicker" data-text="text.overview.kicker"></p>
@@ -106,36 +95,12 @@
       </div>
     </section>
 
-    <!-- 5. How it works — pinned window (built by js/story.js) -->
+    <!-- 4. How it works — pinned window (built by js/story.js) -->
     <section id="how-it-works" class="pinned" data-pin aria-label="How it works"></section>
 
-    <!-- 5b. Request journey — Today vs With GTM (built by js/story.js) -->
+    <!-- 5. Request journey — Today vs With GTM (built by js/story.js) -->
     <section id="request-journey" class="pinned" data-pin aria-label="Request journey"></section>
 
-    <!-- 6. The other actions -->
-    <section id="actions" class="slide">
-      <div class="slide__inner slide__inner--wide">
-        <p class="kicker" data-text="text.actions.kicker"></p>
-        <h2 class="heading" data-text="text.actions.heading"></h2>
-        <div class="cards" data-cards></div>
-      </div>
-    </section>
-
-    <!-- 7. Closing -->
-    <section id="closing" class="slide">
-      <div class="slide__inner slide__inner--wide">
-        <p class="kicker" data-text="text.closing.kicker"></p>
-        <h2 class="heading" data-text="text.closing.heading"></h2>
-        <ul class="recap" data-recap></ul>
-      </div>
-    </section>
-
-    <section id="questions" class="slide slide--questions">
-      <div class="slide__inner">
-        <h2 class="title" data-text="text.questions.heading"></h2>
-        <p class="presenter" data-text="presenter"></p>
-      </div>
-    </section>
   </main>
 </body>
 </html>

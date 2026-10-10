@@ -1,41 +1,10 @@
-/* Non-pinned sections: theme, text binding, cards and recap lists.
-   (Problem-section animation and fade-ins arrive in Phase 6.) */
+/* Non-pinned sections: theme, text binding, fade-ins and the
+   problem-section DNS-propagation animation. */
 (() => {
   const { CONFIG } = DR;
   const T = CONFIG.text;
 
   document.documentElement.dataset.theme = CONFIG.theme || 'dark';
-
-  // Generic line icons (no vendor logos), drawn with currentColor.
-  const ICONS = {
-    migrate: '<path d="M6 16h22l-6-6M28 16l-6 6"/><circle cx="6" cy="16" r="3"/>',
-    patch: '<rect x="3" y="9" width="28" height="14" rx="7"/><circle class="icon-knob" cx="23" cy="16" r="5"/>',
-    delete: '<path d="M6 9h22M13 9V5h8v4M9 9l2 20h12l2-20M15 14v10M19 14v10"/>',
-  };
-  const icon = (name) => (ICONS[name]
-    ? `<svg class="card__icon" viewBox="0 0 34 34" aria-hidden="true">${ICONS[name]}</svg>` : '');
-
-  // Action cards
-  const cards = document.querySelector('[data-cards]');
-  if (cards) {
-    cards.innerHTML = T.actions.cards.map((c, i) => `
-      <article class="card reveal${c.highlight ? ' card--highlight' : ''}" style="--i:${i}">
-        <div class="card__head">${icon(c.icon)}<h3 class="card__title">${DR.fmtHtml(c.title)}</h3></div>
-        ${c.badge ? `<p class="card__badge">${DR.fmtHtml(c.badge)}</p>` : ''}
-        <p class="card__body">${DR.fmtHtml(c.body)}</p>
-        <p class="card__footer">${DR.fmtHtml(T.actions.footer)}</p>
-      </article>`).join('');
-  }
-
-  // Closing recap
-  const recap = document.querySelector('[data-recap]');
-  if (recap) {
-    recap.innerHTML = T.closing.items.map((it, i) => `
-      <li class="recap__item reveal" style="--i:${i}">
-        <strong class="recap__value">${DR.fmtHtml(it.value)}</strong>
-        <span class="recap__label">${DR.fmtHtml(it.label)}</span>
-      </li>`).join('');
-  }
 
   DR.bindText();
 

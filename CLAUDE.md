@@ -6,7 +6,7 @@ Where this file and the spec's original sections disagree, **this file and spec 
 
 ## What this is
 
-A static, scroll-driven, animated presentation site (GitLab Pages) that replaces a
+A static, scroll-driven, animated presentation site (GitHub Pages / GitLab Pages) that replaces a
 slide deck for a 300–400 person VP/director audience. Its main job: make **DNS
 resolution and GTM-based failover visible**. The presenter drives it live with
 keyboard / clicker.
@@ -32,20 +32,24 @@ keyboard / clicker.
 | `js/config.js` | `DR.CONFIG`: names/IPs, diagram labels (`nodes`, `labels`), pinned-section settings (`pins`), dot-group names (`parts`), theme, timing, all page text (`text.*`). |
 | `js/beats.js` | `DR.BEATS` ("How it works"), `DR.JOURNEY` ("Request journey"), `DR.OVERVIEW` (static map state), `DR.PIN_BEATS` (section id → beat array). |
 | `js/util.js` | `DR.fmt` ({token} replacement from CONFIG), `DR.fmtHtml` (escape + \`code\`), `DR.fmtText`, `DR.bindText` (fills `[data-text="config.path"]`), `DR.get`, `DR.clamp`. |
-| `js/sections.js` | Non-pinned sections: theme, text binding, action cards (+ inline icons), recap list, fade-in on scroll (`.reveal-scope` / `.reveal`), problem-section DNS-propagation animation. |
+| `js/sections.js` | Non-pinned sections: theme, text binding, fade-in on scroll (`.reveal-scope` / `.reveal`), problem-section DNS-propagation animation. |
 | `js/diagram.js` | Builds the architecture SVG (layout coordinates live here), applies state, moves the packet. API: `DR.diagram.build(slot, 'overview'|'pinned')`, `DR.diagram.apply(win, state, opts)`, `DR.diagram.applyState(svg, state, focus)`. |
 | `js/story.js` | Pinned sections: template, scroll→beat, keyboard/clicker, dots, deep links, scenario switch, TECH toggle. Debug handle: `DR.story`. |
 | `css/styles.css` | Tokens on `:root` (+ `[data-theme="light"]`), slides, pinned window, diagram, all state visuals, reduced motion. |
 | `.gitlab-ci.yml` | `pages` job copies `index.html css js` → `public/`. Image name may need changing for the runners. |
 | `.github/workflows/pages.yml` | GitHub Pages deploy on push to `main` (live preview: https://nik35.github.io/dns-details/). Repo: https://github.com/Nik35/dns-details |
-| `README.md` | Human guide: run, presenter keys, editing. |
+| `README.md` | Human guide: run, presenter keys, editing, build, deploy. |
+| `.gitignore` | Ignores `*.local.md` (local-only notes). |
+| `removed-sections.local.md` | **Local only, git-ignored — may not exist in your clone.** Archive of the removed sections (title, action cards, recap, Questions) with their HTML / text / JS / CSS for restoring. The same code is in git history before the "Keep only the flow sections" commit. |
 
 ## Page structure (top → bottom)
 
-1. `#intro` · 2. `#problem` (DNS-propagation animation, plays on view) · 3. `#big-idea`
-(10–20 min vs seconds + "time to recover" race bars) · 4. `#overview` (static map, same SVG)
-· 5. `#how-it-works` (**pinned**) · 5b. `#request-journey` (**pinned**) · 6. `#actions`
-(Migrate / Patch / Delete cards; Patch highlighted) · 7. `#closing` (recap) · `#questions`.
+Only the **flow sections** are kept (owner decision):
+1. `#problem` (DNS change + TTL / propagation animation, plays on view) · 2. `#big-idea`
+(10–20 min vs seconds + "time to recover" race bars) · 3. `#overview` (static map, same SVG)
+· 4. `#how-it-works` (**pinned**) · 5. `#request-journey` (**pinned**, last section).
+The title slide, "other actions" cards, recap and Questions slide were **removed** — do not
+re-add them unless the owner asks (see `removed-sections.local.md` or git history).
 
 ### Pinned section 1 — "How it works" (switch: New application | Existing name)
 - **New application: 14 steps.** A: request → log (`creating`) → queue → consume (`action → create`)
@@ -141,6 +145,50 @@ client-secondary gtm-in1 gtm-in2`. SVG viewBox is 1700×720; layout in `N` (node
 - Resize (e.g. F11) returns to the last stop (heights are vh-based).
 - Per-section pace: `CONFIG.pins[id].hopMs` → `--hop`, `stateMs` → `--dur` on that window.
 
+## Build, preview, deploy (for agents)
+
+**There is no build step.** The site is plain files served as-is — never add npm, a bundler,
+a transpiler or a minifier. "Building" just means copying three paths into a folder:
+
+```bash
+# 1. Syntax-check every script (Node is only used as a checker, not a dependency)
+for f in js/*.js; do node --check "$f" || echo "FAIL $f"; done
+
+# 2. Guard rail: no external URLs / CDNs / imports in site files (expect no output)
+grep -nE "https?://|@import|cdn\." index.html css/*.css js/*.js
+
+# 3. Build the deployable folder exactly like CI does
+rm -rf _site && mkdir -p _site && cp -r index.html css js _site/
+
+# 4. Preview it
+python -m http.server 8765 --directory _site      # open http://127.0.0.1:8765
+```
+`_site/` is a throwaway artefact — don't commit it. Day to day you can also serve the repo
+root (`--directory .`) or double-click `index.html`. After edits reload with **Ctrl+F5**
+(the dev server's files get cached).
+
+**Deploy**
+- **GitHub Pages** (current host): a push to `main` on https://github.com/Nik35/dns-details runs
+  `.github/workflows/pages.yml` (same copy step → `actions/deploy-pages`).
+  Live site: https://nik35.github.io/dns-details/. The repo setting must be
+  *Settings → Pages → Source: **GitHub Actions***. If it says "Deploy from a branch", GitHub's
+  built-in Jekyll job runs instead and fails looking for `/docs`.
+- **GitLab Pages**: `.gitlab-ci.yml` does the same into `public/` (runner image may need changing).
+- Only `index.html`, `css/`, `js/` are published; the `*.md` docs are not.
+
+**Git**
+- Branch `main`, remote `origin` = GitHub. Commit messages end with the `Co-Authored-By` trailer.
+- **Pushing to `main` publishes the live site — get the owner's OK first.** For larger work use a
+  feature branch (e.g. `phase-7-polish`) and a PR.
+- "LF will be replaced by CRLF" warnings on Windows are harmless.
+
+**Definition of done for any change**
+1. `node --check` passes and there are no external URLs.
+2. Walk every stop with PageDown / PageUp at 1366×768 and 1920×1080 — both scenarios of both
+   pinned sections, `T` on and off. 3. Console clean.
+4. All new wording lives in `config.js` / `beats.js`.
+5. Update this file (and spec §14) if architecture, sections or status changed.
+
 ## Gotchas learned the hard way
 
 - **Line drawing:** links use `pathLength="100"` with `stroke-dasharray: 100 200` and
@@ -159,12 +207,7 @@ client-secondary gtm-in1 gtm-in2`. SVG viewBox is 1700×720; layout in `N` (node
 
 ## Preview / test
 
-```bash
-python -m http.server 8765 --directory E:/Training-Nikhil/dr-gtm
-```
-Open `http://127.0.0.1:8765` (or double-click `index.html`). Check DevTools → Network: only local files.
-Quick checks: `node --check js/*.js`; walk every stop with PageDown/PageUp at 1920×1080 and
-1366×768; both scenarios of both pinned sections; `T`; deep links; console clean.
+See **Build, preview, deploy** above. Also check DevTools → Network: only local files.
 
 ## Status
 
@@ -176,14 +219,14 @@ Quick checks: `node --check js/*.js`; walk every stop with PageDown/PageUp at 19
 | 4 Parts A + B (+ scenario switch) | done (+ migrate flow for Existing name) |
 | 5 Part C + beat 14 | done |
 | — Request journey section (added by request) | done |
-| 6 Other sections (problem anim, big idea, cards, closing) | done |
+| 6 Other sections (problem anim, big idea, cards, closing) | done — then title / cards / recap / Questions **removed** by the owner |
 | 7 Polish & checks | **TODO** |
 
 ### Phase 7 TODO
 - Full **reduced-motion** pass (Windows "Animation effects" off): fades only, no movement,
   packet hidden/jumped, race bars + propagation show end state.
 - Layout check of **every section** at 1920×1080, 1366×768 and ~1280×600 (125–150 % scaling);
-  the problem slide and actions slide are the tallest.
+  the problem slide is the tallest.
 - Backward-scroll check through all steps of both pins, both scenarios.
 - **Light theme** (`CONFIG.theme = 'light'`) has never been visually checked.
 - Verify spec §13 acceptance criteria one by one; zero external requests.
