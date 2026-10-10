@@ -37,6 +37,7 @@ keyboard / clicker.
 | `js/story.js` | Pinned sections: template, scroll→beat, keyboard/clicker, dots, deep links, scenario switch, TECH toggle. Debug handle: `DR.story`. |
 | `css/styles.css` | Tokens on `:root` (+ `[data-theme="light"]`), slides, pinned window, diagram, all state visuals, reduced motion. |
 | `.gitlab-ci.yml` | `pages` job copies `index.html css js` → `public/`. Image name may need changing for the runners. |
+| `.github/workflows/pages.yml` | GitHub Pages deploy on push to `main` (live preview: https://nik35.github.io/dns-details/). Repo: https://github.com/Nik35/dns-details |
 | `README.md` | Human guide: run, presenter keys, editing. |
 
 ## Page structure (top → bottom)

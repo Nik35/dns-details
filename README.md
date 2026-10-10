@@ -52,10 +52,13 @@ Mouse wheel / trackpad scrolling also steps through the animation.
 Text may use tokens such as `{fqdn}`, `{wideIp}`, `{gateway}`, `{primary.ip}` (filled from
 `config.js`), and \`backticks\` for monospace identifiers.
 
-## Deploy (GitLab Pages)
+## Deploy
 
-`.gitlab-ci.yml` copies `index.html`, `css/`, `js/` into `public/`. Change the `image:` to
-one your runners are allowed to pull.
+- **GitHub Pages** (live preview): `.github/workflows/pages.yml` publishes `index.html`, `css/`, `js/`
+  on every push to `main`. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+  URL: <https://nik35.github.io/dns-details/>
+- **GitLab Pages**: `.gitlab-ci.yml` copies the same files into `public/`. Change the `image:` to
+  one your runners are allowed to pull.
 
 ## For developers / AI agents
 
