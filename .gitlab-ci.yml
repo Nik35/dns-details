@@ -1,0 +1,15 @@
+# GitLab Pages: publish the static site as-is (no build step).
+# NOTE: change the image to one your runners are allowed to pull
+# (any image with a POSIX shell + cp works, e.g. your internal busybox/alpine mirror).
+image: alpine:latest
+
+pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    - cp -r index.html css js public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

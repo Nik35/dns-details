@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-tech="off">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DR Failover Automation</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Load order matters: data first, then helpers, then behaviour. -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/beats.js"></script>
+  <script defer src="js/util.js"></script>
+  <script defer src="js/sections.js"></script>
+  <script defer src="js/diagram.js"></script>
+  <script defer src="js/story.js"></script>
+</head>
+<body>
+  <noscript><p class="noscript">This presentation needs JavaScript enabled.</p></noscript>
+
+  <main>
+    <!-- 1. Title -->
+    <section id="intro" class="slide slide--intro">
+      <div class="slide__inner">
+        <p class="kicker" data-text="text.intro.kicker"></p>
+        <h1 class="title" data-text="text.intro.title"></h1>
+        <p class="lede" data-text="bigIdea"></p>
+        <p class="presenter" data-text="presenter"></p>
+        <p class="hint" data-text="text.intro.hint"></p>
+      </div>
+    </section>
+
+    <!-- 2. The problem -->
+    <section id="problem" class="slide">
+      <div class="slide__inner">
+        <p class="kicker" data-text="text.problem.kicker"></p>
+        <h2 class="heading" data-text="text.problem.heading"></h2>
+        <p class="body" data-text="text.problem.body"></p>
+        <div class="prop" data-prop data-phase="idle">
+          <div class="prop__record">
+            <span class="prop__label" data-text="text.problem.anim.recordLabel"></span>
+            <span class="prop__values">
+              <span class="prop__old" data-text="text.problem.anim.before"></span>
+              <span class="prop__new" data-text="text.problem.anim.after"></span>
+            </span>
+            <span class="prop__changed" data-text="text.problem.anim.changed"></span>
+          </div>
+          <p class="prop__caches-label" data-text="text.problem.anim.cachesLabel"></p>
+          <div class="prop__caches" data-prop-caches></div>
+          <div class="prop__progress">
+            <span class="prop__clock-label" data-text="text.problem.anim.clockLabel"></span>
+            <span class="prop__bar"><span class="prop__fill"></span></span>
+            <span class="prop__clock">00:00</span>
+          </div>
+          <div class="prop__meta">
+            <span class="prop__status" aria-live="polite"></span>
+            <span class="prop__speed" data-text="text.problem.anim.speedNote"></span>
+            <button type="button" class="prop__replay" data-text="text.problem.anim.replay"></button>
+          </div>
+        </div>
+        <p class="body body--muted" data-text="text.problem.wait"></p>
+        <p class="callout" data-text="text.problem.callout"></p>
+      </div>
+    </section>
+
+    <!-- 3. The big idea -->
+    <section id="big-idea" class="slide">
+      <div class="slide__inner">
+        <p class="kicker" data-text="text.bigIdea.kicker"></p>
+        <blockquote class="quote" data-text="bigIdea"></blockquote>
+        <div class="compare">
+          <div class="compare__item compare__item--before">
+            <span class="compare__label" data-text="text.bigIdea.before.label"></span>
+            <strong class="compare__value" data-text="text.bigIdea.before.value"></strong>
+            <span class="compare__sub" data-text="text.bigIdea.before.sub"></span>
+          </div>
+          <div class="compare__arrow" aria-hidden="true">→</div>
+          <div class="compare__item compare__item--after">
+            <span class="compare__label" data-text="text.bigIdea.after.label"></span>
+            <strong class="compare__value" data-text="text.bigIdea.after.value"></strong>
+            <span class="compare__sub" data-text="text.bigIdea.after.sub"></span>
+          </div>
+        </div>
+        <div class="race" data-race>
+          <p class="race__title" data-text="text.bigIdea.raceTitle"></p>
+          <div class="race__row race__row--today">
+            <span class="race__label" data-text="text.bigIdea.raceToday"></span>
+            <span class="race__track"><span class="race__bar"></span></span>
+            <span class="race__end" data-text="text.bigIdea.raceTodayEnd"></span>
+          </div>
+          <div class="race__row race__row--gtm">
+            <span class="race__label" data-text="text.bigIdea.raceGtm"></span>
+            <span class="race__track"><span class="race__bar"></span></span>
+            <span class="race__end" data-text="text.bigIdea.raceGtmEnd"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Architecture overview (static map) -->
+    <section id="overview" class="slide">
+      <div class="slide__inner slide__inner--wide">
+        <p class="kicker" data-text="text.overview.kicker"></p>
+        <h2 class="heading" data-text="text.overview.heading"></h2>
+        <p class="body" data-text="text.overview.body"></p>
+        <div class="diagram-slot diagram-slot--overview" data-diagram="overview">
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. How it works — pinned window (built by js/story.js) -->
+    <section id="how-it-works" class="pinned" data-pin aria-label="How it works"></section>
+
+    <!-- 5b. Request journey — Today vs With GTM (built by js/story.js) -->
+    <section id="request-journey" class="pinned" data-pin aria-label="Request journey"></section>
+
+    <!-- 6. The other actions -->
+    <section id="actions" class="slide">
+      <div class="slide__inner slide__inner--wide">
+        <p class="kicker" data-text="text.actions.kicker"></p>
+        <h2 class="heading" data-text="text.actions.heading"></h2>
+        <div class="cards" data-cards></div>
+      </div>
+    </section>
+
+    <!-- 7. Closing -->
+    <section id="closing" class="slide">
+      <div class="slide__inner slide__inner--wide">
+        <p class="kicker" data-text="text.closing.kicker"></p>
+        <h2 class="heading" data-text="text.closing.heading"></h2>
+        <ul class="recap" data-recap></ul>
+      </div>
+    </section>
+
+    <section id="questions" class="slide slide--questions">
+      <div class="slide__inner">
+        <h2 class="title" data-text="text.questions.heading"></h2>
+        <p class="presenter" data-text="presenter"></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
