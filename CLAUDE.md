@@ -145,6 +145,33 @@ client-secondary gtm-in1 gtm-in2`. SVG viewBox is 1700×720; layout in `N` (node
 - Resize (e.g. F11) returns to the last stop (heights are vh-based).
 - Per-section pace: `CONFIG.pins[id].hopMs` → `--hop`, `stateMs` → `--dur` on that window.
 
+## Rules for agents (read before editing)
+
+1. **The site already works.** Most requests are content or small visual changes →
+   edit `js/config.js` / `js/beats.js` (and maybe a CSS rule). Do **not** rewrite
+   `story.js` (scroll/keys engine) or `diagram.js` (SVG + packet engine) unless the owner
+   explicitly asks for an engine change.
+2. Work in **small steps**; after each step run the checks in *Definition of done* below.
+3. Never add libraries, CDNs, npm, a bundler, ES modules, external fonts or real names/IPs.
+4. Ask the owner when a request is ambiguous; don't guess.
+5. Don't push to `main` without the owner's OK (it publishes the live site).
+
+### Known-good version & recovery
+- Tag **`v1-flows`** = verified working site (flow sections only, both pinned sections,
+  migrate flow, GitHub Pages live). If something breaks and can't be fixed quickly:
+  ```bash
+  git diff v1-flows --stat                    # what changed since the good version
+  git checkout v1-flows -- index.html css js  # restore just the site files
+  ```
+  Or restore a single file: `git checkout v1-flows -- js/story.js`.
+- **Rebuild from scratch is never needed**: the full source is in this repo. `dr-gtm-presentation-spec.md`
+  (§1–13 original + §14 as built) plus this file describe everything if a redesign is ever requested.
+
+### Starter prompt for a new agent
+> Read CLAUDE.md fully, then dr-gtm-presentation-spec.md §14. Task: <…>. Change only what
+> the task needs, run the Definition-of-done checks, summarise what you changed and how to
+> preview it, and don't push until I confirm.
+
 ## Build, preview, deploy (for agents)
 
 **There is no build step.** The site is plain files served as-is — never add npm, a bundler,
